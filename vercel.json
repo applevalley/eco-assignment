@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/1360000/:path*",
+      "destination": "http://apis.data.go.kr/1360000/:path*"
+    }
+  ]
+}
