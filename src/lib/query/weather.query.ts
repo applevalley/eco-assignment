@@ -36,7 +36,7 @@ export const weatherKey = createQueryKeys("weather", {
 // 초단기실황조회
 export const useUltraSrtNcst = (requestData: UltraSrtNcstType) => {
   const { data } = useQuery({
-    queryKey: [weatherKey.ultraSrtNcst],
+    queryKey: [weatherKey.ultraSrtNcst, requestData],
     queryFn: () => {
       return getUltraSrtNcst(requestData);
     },
@@ -59,7 +59,7 @@ export const useUltraSrtFcst = (requestData: UltraSrtFcstType) => {
 // 단기예보조회
 export const useVilageFcst = (requestData: VilageFcstType) => {
   const { data } = useQuery({
-    queryKey: [weatherKey.vilageFcst],
+    queryKey: [weatherKey.vilageFcst, requestData],
     queryFn: () => {
       return getVilageFcst(requestData);
     },

@@ -9,8 +9,16 @@ import {
   getWindDirection,
 } from "@/utils/convertWeatherDetailData";
 
+interface NowWeatherProps {
+  selectedLocation: {
+    thirdLevel: string;
+    gridX: number;
+    gridY: number;
+  } | null;
+}
+
 // 사용자 위치 기반 현재 날씨를 반환하는 컴포넌트
-const NowWeather = () => {
+const NowWeather = ({ selectedLocation }: NowWeatherProps) => {
   const { latitude, longitude, error, loading } = useCurrentLocation();
 
   // 현재 날짜와 시간 정보 생성
@@ -36,16 +44,21 @@ const NowWeather = () => {
   }, [latitude, longitude, loading, error]);
 
   // 날씨 정보 요청
-  const { data: weatherData } = useUltraSrtNcst({
-    serviceKey: import.meta.env.VITE_WEATHER_SHORT_KEY as string,
-    pageNo: 1,
-    numOfRows: 10,
-    dataType: "JSON",
-    base_date: baseDate,
-    base_time: baseTime.toString().padStart(4, "0"),
-    nx: gridCoordinate?.nx ?? 0,
-    ny: gridCoordinate?.ny ?? 0,
-  });
+  // 하단의 지역 검색 컴포넌트를 통해, 선택된 지역의 좌표가 있는 경우 해당 지역의 정보를 전달합니다.
+  const requestData = useMemo(() => {
+    return {
+      serviceKey: import.meta.env.VITE_WEATHER_SHORT_KEY as string,
+      pageNo: 1,
+      numOfRows: 10,
+      dataType: "JSON",
+      base_date: baseDate,
+      base_time: baseTime.toString().padStart(4, "0"),
+      nx: selectedLocation ? selectedLocation.gridX : gridCoordinate ? gridCoordinate.nx : 0,
+      ny: selectedLocation ? selectedLocation.gridY : gridCoordinate ? gridCoordinate.ny : 0,
+    };
+  }, [baseDate, baseTime, gridCoordinate, selectedLocation]);
+
+  const { data: weatherData } = useUltraSrtNcst(requestData);
 
   const weatherItems =
     weatherData?.status === "success" ? weatherData.data.response.body.items.item : null;
@@ -73,7 +86,7 @@ const NowWeather = () => {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4">현재 날씨</h2>
+      <h2 className="text-xl font-bold mb-4">{`${selectedLocation ? selectedLocation.thirdLevel : ""} 현재 날씨`}</h2>
       <div className="grid grid-cols-1 gap-4">
         {/* 주요 날씨 정보 */}
         <div className="bg-gray-50 p-4 rounded-lg">

@@ -5,6 +5,7 @@ import TodayWeather from "@/components/organisms/TodayWeather";
 import LocationSearch from "@/components/organisms/LocationSearch";
 
 interface locationProps {
+  thirdLevel: string;
   gridX: number;
   gridY: number;
 }
@@ -14,7 +15,7 @@ const WeatherPage = () => {
   const [selectedLocation, setSelectedLocation] = useState<locationProps | null>(null);
   return (
     <div className="space-y-4">
-      <NowWeather />
+      <NowWeather selectedLocation={selectedLocation} />
       <TodayWeather />
       <LocationSearch onLocationSelect={(location) => setSelectedLocation(location)} />
     </div>
