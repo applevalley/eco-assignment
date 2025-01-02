@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 
-import { PAGE_URL } from "@/src/constants/path";
+import { PAGE_URL } from "@/constants/path";
 
-import Layout from "@/src/components/Layout";
-import WeatherPage from "@/src/components/pages/WeatherPage";
+import Layout from "@/components/Layout";
+import WeatherPage from "@/components/pages/WeatherPage";
 
 // 라우터 컴포넌트
 export default function Route() {
