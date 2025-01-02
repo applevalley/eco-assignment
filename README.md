@@ -5,6 +5,12 @@
 1. npm install
 2. npm run dev
 
+```
+.env
+VITE_BASE_URL = "http://apis.data.go.kr"
+VITE_WEATHER_SHORT_KEY = "CEoisfTrSp61tWd0j68AWkonNjLZclJ9bYyVGu8GBMpNwWx9Jj5aDr8oyInTQl0FKzrj/on+uo2AsTeDByJUGQ=="
+```
+
 # 프로젝트 구조
 
 ```
