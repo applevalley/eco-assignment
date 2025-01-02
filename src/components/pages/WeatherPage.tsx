@@ -41,7 +41,7 @@ const WeatherPage = () => {
   return (
     <div className="space-y-4">
       <NowWeather selectedLocation={selectedLocation} />
-      <TodayWeather />
+      <TodayWeather selectedLocation={selectedLocation} />
       <LocationSearch onLocationSelect={(location) => setSelectedLocation(location)} />
       <div className="p-4 bg-white rounded-lg shadow">
         <h2 className="text-xl font-bold mb-2">저장된 지역</h2>
