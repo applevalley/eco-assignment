@@ -1,3 +1,4 @@
+import { getStorageValue } from "@/utils/storage";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 
@@ -72,12 +73,24 @@ const LocationSearch = ({ onLocationSelect }: LocationSearchProps) => {
     setIsDropdownOpen(true);
   }, [searchTerm, locations]);
 
+  // 지역 선택 핸들러
   const handleLocationSelect = (location: LocationData) => {
     onLocationSelect({
       thirdLevel: location.thirdLevel,
       gridX: location.gridX,
       gridY: location.gridY,
     });
+
+    // 로컬 스토리지에 지역 정보 저장
+    const getStoredLocations = JSON.parse(getStorageValue("storedLocations") || "[]");
+    const isDuplicate = getStoredLocations.some(
+      (saved: LocationData) => saved.thirdLevel === location.thirdLevel
+    );
+    if (!isDuplicate) {
+      getStoredLocations.push(location);
+      localStorage.setItem("storedLocations", JSON.stringify(getStoredLocations));
+    }
+
     setSearchTerm(location.thirdLevel);
     setIsDropdownOpen(false);
   };
